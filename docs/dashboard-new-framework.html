@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link rel="modulepreload" href="./internal/immutable/entry/start.6d8a13a5.js">
+		<link rel="modulepreload" href="./internal/immutable/chunks/index.5b30edc6.js">
+		<link rel="modulepreload" href="./internal/immutable/chunks/singletons.63a27b21.js">
+		<link rel="modulepreload" href="./internal/immutable/chunks/paths.3cad7815.js">
+		<link rel="modulepreload" href="./internal/immutable/entry/app.5be462f5.js">
+		<link rel="modulepreload" href="./internal/immutable/chunks/preload-helper.a4192956.js">
+	</head>
+	<body data-sveltekit-prefetch>
+		<div>
+			<script>
+				{
+					__sveltekit_1uxi01j = {
+						assets: "/Sliders-senegal",
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("./internal/immutable/entry/start.6d8a13a5.js"),
+						import("./internal/immutable/entry/app.5be462f5.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element);
+					});
+				}
+			</script>
+		</div>
+	</body>
+</html>
