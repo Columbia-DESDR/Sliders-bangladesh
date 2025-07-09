@@ -48,10 +48,10 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             trigger_exit as (
                 select 
-                    round(percentile_cont(var(freq)) 
+                    round(percentile_cont(1-var(freq)) 
                           within group (order by window_value asc)) 
                         as trigger_value,
-                    round(min(window_value)) * var(exit_multiplier) 
+                    round(max(window_value)) * var(exit_multiplier) 
                         as exit_value
                 from rain_window
             ),
@@ -131,10 +131,10 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             trigger_exit as (
                 select 
-                    round(percentile_cont(var(freq)) 
+                    round(percentile_cont(1-var(freq)) 
                           within group (order by window_value asc)) 
                         as trigger_value,
-                    round(min(window_value)) * var(exit_multiplier) 
+                    round(max(window_value)) * var(exit_multiplier) 
                         as exit_value
                 from rain_window
             ),
@@ -206,10 +206,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as ( 
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value 
                     from rain_window 
                 ),
@@ -227,7 +227,7 @@ let e={sum_early:{name:"sum_early",query:`
                 select *, 
                        case when EXIT_VALUE = TRIGGER_VALUE 
                             then 0 
-                            else (WINDOW_VALUE - TRIGGER_VALUE)/(EXIT_VALUE - TRIGGER_VALUE) 
+                            else (TRIGGER_VALUE - WINDOW_VALUE )/(TRIGGER_VALUE- EXIT_VALUE ))  
                        end as severity_value 
                 from source 
             ),
@@ -324,10 +324,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -345,8 +345,8 @@ let e={sum_early:{name:"sum_early",query:`
                 select *,
                        case when EXIT_VALUE = TRIGGER_VALUE 
                             then 0 
-                            else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                 (EXIT_VALUE - TRIGGER_VALUE) 
+                            else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                 (TRIGGER_VALUE - EXIT_VALUE ) 
                        end as severity_value
                 from source
             ),
@@ -457,10 +457,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -479,8 +479,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
@@ -510,10 +510,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -532,8 +532,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
@@ -609,10 +609,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -631,8 +631,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
@@ -662,10 +662,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -684,8 +684,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
@@ -790,10 +790,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -812,8 +812,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
@@ -843,10 +843,10 @@ let e={sum_early:{name:"sum_early",query:`
                 ),
                 trigger_exit as (
                     select 
-                        round(percentile_cont(var(freq)) 
+                        round(percentile_cont(1-var(freq)) 
                               within group (order by window_value asc)) 
                             as trigger_value,
-                        round(min(window_value)) * var(exit_multiplier) 
+                        round(max(window_value)) * var(exit_multiplier) 
                             as exit_value
                     from rain_window
                 ),
@@ -865,8 +865,8 @@ let e={sum_early:{name:"sum_early",query:`
                     select *,
                            case when EXIT_VALUE = TRIGGER_VALUE 
                                 then 0 
-                                else (WINDOW_VALUE - TRIGGER_VALUE)/
-                                     (EXIT_VALUE - TRIGGER_VALUE) 
+                                else (TRIGGER_VALUE - WINDOW_VALUE )/
+                                     (TRIGGER_VALUE - EXIT_VALUE ) 
                            end as severity_value
                     from source
                 ),
