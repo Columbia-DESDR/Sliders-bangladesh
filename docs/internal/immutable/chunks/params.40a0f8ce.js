@@ -1,1 +1,0 @@
-import{w as e}from"./paths.6fcc4823.js";const t=e({region:1,dekcap:24,freq:.23,year_start:1981,year_end:2024,back_fill_year:2001,sum_early_weight:.4,sum_late_weight:.4,sum_early_first:1,sum_early_last:30,sum_late_first:1,sum_late_last:30,exit_multiplier:1.015,check_sensitivity:.1});export{t as p};
