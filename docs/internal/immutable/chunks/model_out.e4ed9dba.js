@@ -1,7 +1,7 @@
 let e={sum_early:{name:"sum_early",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -9,6 +9,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -18,6 +19,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -34,7 +36,7 @@ let e={sum_early:{name:"sum_early",query:`
                 select * from output
             ),
             source as (
-                select * from __dbt__cte__fusion 
+                select * from __dbt__cte__satellite 
             ),
             intervel as (
                 select * from source
@@ -82,9 +84,9 @@ let e={sum_early:{name:"sum_early",query:`
                 end_time::INTEGER AS end_time
             FROM __dbt__cte__crop_cal_precast
         `},sum_late:{name:"sum_late",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -92,6 +94,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -101,6 +104,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -117,7 +121,7 @@ let e={sum_early:{name:"sum_early",query:`
                 select * from output
             ),
             source as (
-                select * from __dbt__cte__fusion 
+                select * from __dbt__cte__satellite 
             ),
             intervel as (
                 select * from source
@@ -156,9 +160,9 @@ let e={sum_early:{name:"sum_early",query:`
             FROM crop_cal_raw 
             WHERE gid='var(region)'
         `},severity_sum_late:{name:"severity_sum_late",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as ( 
-                    select * from fusion_raw 
+                    select * from satellite_raw 
                 ),
                 gid_map as ( 
                     select 
@@ -166,6 +170,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite, 
                         b.region 
                     from unpivot_result a 
                     left join admin_raw b on a.gid = b.gid 
@@ -175,6 +180,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)' 
                       and YEAR >= var(year_start) 
                       and YEAR <= var(year_end) 
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as ( 
                     select *, 
@@ -192,7 +198,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_late as (
                 with source as ( 
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as ( 
                     select * from source 
@@ -240,9 +246,9 @@ let e={sum_early:{name:"sum_early",query:`
                 from severity_raw 
             )
             select * from output
-        `},fusion:{name:"fusion",query:`
+        `},satellite:{name:"satellite",query:`
             with unpivot_result as (
-                select * from fusion_raw
+                select * from satellite_raw
             ),
             gid_map as (
                 select 
@@ -250,6 +256,7 @@ let e={sum_early:{name:"sum_early",query:`
                     a.year, 
                     a.value, 
                     a.dekad, 
+                    a.satellite,
                     b.region
                 from unpivot_result a
                 left join admin_raw b on a.gid = b.gid
@@ -259,6 +266,7 @@ let e={sum_early:{name:"sum_early",query:`
                 where gid = 'var(region)'
                   and YEAR >= var(year_start)
                   and YEAR <= var(year_end)
+                  and satellite = 'var(selected_satellite)'
             ),
             cap as (
                 select *,
@@ -274,9 +282,9 @@ let e={sum_early:{name:"sum_early",query:`
             )
             select * from output
         `},severity_sum_early:{name:"severity_sum_early",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -284,6 +292,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -293,6 +302,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -310,7 +320,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_early as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -360,9 +370,9 @@ let e={sum_early:{name:"sum_early",query:`
             )
             select * from output
         `},climatology:{name:"climatology",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -370,6 +380,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -379,6 +390,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -395,7 +407,7 @@ let e={sum_early:{name:"sum_early",query:`
                 select * from output
             ),
             source as (
-                select * from __dbt__cte__fusion 
+                select * from __dbt__cte__satellite 
             ),
             climatology as (
                 select dekad, avg(value_cap) as average_value
@@ -407,9 +419,9 @@ let e={sum_early:{name:"sum_early",query:`
             )
             select * from climatology
         `},severity_combined:{name:"severity_combined",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -417,6 +429,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -426,6 +439,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -443,7 +457,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_early as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -496,7 +510,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_late as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -559,9 +573,9 @@ let e={sum_early:{name:"sum_early",query:`
             )
             select * from source
         `},check:{name:"check",query:`
-            with __dbt__cte__fusion as (
+            with __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -569,6 +583,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite,
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -578,6 +593,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -595,7 +611,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_early as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -648,7 +664,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_late as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -740,9 +756,9 @@ let e={sum_early:{name:"sum_early",query:`
                   AND is_bad_year = 1 
                 ORDER BY variable
             ),
-            __dbt__cte__fusion as (
+            __dbt__cte__satellite as (
                 with unpivot_result as (
-                    select * from fusion_raw
+                    select * from satellite_raw
                 ),
                 gid_map as (
                     select 
@@ -750,6 +766,7 @@ let e={sum_early:{name:"sum_early",query:`
                         a.year, 
                         a.value, 
                         a.dekad, 
+                        a.satellite, 
                         b.region
                     from unpivot_result a
                     left join admin_raw b on a.gid = b.gid
@@ -759,6 +776,7 @@ let e={sum_early:{name:"sum_early",query:`
                     where gid = 'var(region)'
                       and YEAR >= var(year_start)
                       and YEAR <= var(year_end)
+                      and satellite = 'var(selected_satellite)'
                 ),
                 cap as (
                     select *,
@@ -776,7 +794,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_early as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
@@ -829,7 +847,7 @@ let e={sum_early:{name:"sum_early",query:`
             ),
             __dbt__cte__sum_late as (
                 with source as (
-                    select * from __dbt__cte__fusion 
+                    select * from __dbt__cte__satellite 
                 ),
                 intervel as (
                     select * from source
